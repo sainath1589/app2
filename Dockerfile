@@ -1,10 +1,4 @@
-FROM debian:buster
-
-# Install Tomcat
-RUN apt-get update && apt-get install -y tomcat8
-
-# Install vim
-RUN apt-get update && apt-get install -y vim
+FROM tomcat:8.0.20-jre8
 
 # Copy configuration files
 COPY tomcat-users.xml /usr/local/tomcat/conf
