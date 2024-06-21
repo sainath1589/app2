@@ -1,9 +1,9 @@
-FROM tomcat:8.0.20-jre8
+FROM debian:buster
 
-# Install apt-get dependencies
-RUN apt-get update && apt-get install -y ca-certificates apt-transport-https gnupg2 software-properties-common
+# Install Tomcat
+RUN apt-get update && apt-get install -y tomcat8
 
-# Add the Debian repository
+# Install vim
 RUN apt-get update && apt-get install -y vim
 
 # Copy configuration files
@@ -15,5 +15,6 @@ EXPOSE 8081
 
 # Run Tomcat
 CMD ["catalina.sh", "run"]
+
 
 
