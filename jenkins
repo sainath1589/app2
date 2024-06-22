@@ -1,0 +1,52 @@
+pipeline {
+    agent any 
+    tools {
+        maven 'maven'
+    }
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/sainath1589/app.git' 
+            }
+        }
+        stage('Build') { 
+            steps {
+                script {
+                    def mavenHome = tool name: 'maven', type: 'maven'
+                    def mavenCMD = "${mavenHome}/bin/mvn"
+                    sh "${mavenCMD} clean package" 
+                }
+            }
+        }
+        stage('SonarQube Analysis') { 
+            steps {
+                withSonarQubeEnv('sonar') { 
+                    sh '''
+                        sonar-scanner \
+                        -Dsonar.projectKey=java \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=http://34.140.97.122:9000 \
+                        -Dsonar.login=46526f7d5bf29e3ad0dfb3e3bf8180d7dad9e59c
+                    '''
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // 1. Build the Docker Image
+                    docker.build("my-app:latest", ".")
+                }
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    // 3. Run the Container
+                    docker.image("my-app:latest").run("-d --rm -p 8080:8080")
+                }
+            }
+        }
+    }
+}
+
