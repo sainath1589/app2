@@ -1,5 +1,8 @@
 FROM ubuntu:latest
 
+# Install gnupg
+RUN apt-get update && apt-get install -y gnupg
+
 # Add the Tomcat repository
 RUN echo "deb http://repo.maven.apache.org/maven2/ org/apache/tomcat/tomcat-8.0.x/8.0.x/tomcat-8.0.x-8.0.x.list" >> /etc/apt/sources.list
 
@@ -24,6 +27,7 @@ EXPOSE 8080
 
 # Run Tomcat
 CMD ["catalina.sh", "run"]
+
 
 
 
