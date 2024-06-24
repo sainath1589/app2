@@ -6,8 +6,14 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6E
 # Update the package list
 RUN apt-get update
 
+# Install usrmerge
+RUN apt-get install -y usrmerge
+
 # Install vim
 RUN apt-get install -y vim
+
+# ... rest of your Dockerfile ...
+
 
 # Copy configuration files
 COPY tomcat-users.xml /usr/local/tomcat/conf
