@@ -1,14 +1,17 @@
-FROM tomcat:8.0.20-jre8
- 
-# Copy configuration files
-COPY tomcat-users.xml /usr/local/tomcat/conf
-COPY target/*.war /usr/local/tomcat/webapps/
- 
-# Expose port 8080
+FROM tomcat:9.0.65-jre11-alpine
+
+# Install Vim
+RUN apk add vim
+
+# Copy the WAR file into the Tomcat webapps directory
+COPY target/myweb-8.5.8.war /usr/local/tomcat/webapps/
+
+# Expose the Tomcat port
 EXPOSE 8080
- 
-# Run Tomcat
+
+# Start Tomcat
 CMD ["catalina.sh", "run"]
+
  
 
 
